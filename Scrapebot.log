@@ -1,0 +1,9 @@
+2024-06-14 15:33:50,959 - DEBUG - Starting new HTTPS connection (1): mico.en.aptoide.com:443
+2024-06-14 15:33:51,595 - DEBUG - https://mico.en.aptoide.com:443 "GET /app HTTP/1.1" 200 None
+2024-06-14 15:33:51,723 - INFO - Successful request processed for URL: https://mico.en.aptoide.com/app
+2024-06-14 15:34:11,302 - DEBUG - Starting new HTTPS connection (1): spotify-muzik-dan-podcast.en.aptoide.com:443
+2024-06-14 15:34:12,565 - DEBUG - https://spotify-muzik-dan-podcast.en.aptoide.com:443 "GET /app HTTP/1.1" 200 None
+2024-06-14 15:34:12,704 - INFO - Successful request processed for URL: https://spotify-muzik-dan-podcast.en.aptoide.com/app
+2024-06-14 15:46:15,050 - DEBUG - Starting new HTTPS connection (1): spotify-muzik-dan-podcast.en.aptoide.com:443
+2024-06-14 15:46:15,583 - DEBUG - https://spotify-muzik-dan-podcast.en.aptoide.com:443 "GET /app HTTP/1.1" 200 None
+2024-06-14 15:46:15,715 - INFO - Successful request processed for URL: https://spotify-muzik-dan-podcast.en.aptoide.com/app
