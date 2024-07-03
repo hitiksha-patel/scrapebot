@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ScrapeBot</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f0f0;
+        color: #333;
+        margin: 0;
+        padding: 0;
+      }
+      .container {
+        max-width: 600px;
+        margin: 50px auto;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+      h1 {
+        text-align: center;
+        color: #333;
+      }
+      form {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+      }
+      label {
+        margin-bottom: 10px;
+        font-weight: bold;
+      }
+      input[type="text"] {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 20px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 16px;
+        box-sizing: border-box;
+      }
+      button[type="submit"] {
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        cursor: pointer;
+        border-radius: 4px;
+        font-size: 16px;
+      }
+      button[type="submit"]:hover {
+        background-color: #0056b3;
+      }
+      #app-info {
+        margin-top: 20px;
+        padding: 10px;
+        background-color: #f9f9f9;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+      #app-info h2 {
+        margin-top: 0;
+        font-size: 24px;
+        color: #007bff;
+      }
+      #app-info p {
+        margin-bottom: 10px;
+      }
+      .error-message {
+        color: #dc3545;
+        font-size: 14px;
+        margin-top: 5px;
+      }
+    </style>
+    <script>
+      // Function to clear input field on page load
+      function clearInput() {
+        document.getElementById("url").value = "";
+      }
+
+      async function fetchAppInfo(event) {
+        event.preventDefault(); // Prevent the form from submitting the traditional way
+        const url = document.getElementById("url").value.trim();
+
+        try {
+          const response = await fetch("/get-app-info", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/x-www-form-urlencoded",
+            },
+            body: new URLSearchParams({
+              url: url,
+            }),
+          });
+
+          const data = await response.json();
+
+          if (!response.ok) {
+            throw new Error(data.title || "Unknown error");
+          }
+
+          clearAppInfo();
+          displayAppInfo(data);
+        } catch (error) {
+          clearAppInfo();
+          displayError(error.message);
+        }
+      }
+
+      function displayAppInfo(data) {
+        const appInfoDiv = document.getElementById("app-info");
+        appInfoDiv.innerHTML = `
+          <h2>App Information</h2>
+          <p><strong>Name:</strong> ${data.Name}</p>
+          <p><strong>Downloads:</strong> ${data.Downloads}</p>
+          <p><strong>Version:</strong> ${data.Version}</p>
+          <p><strong>Release Date:</strong> ${data["Release Date"]}</p>
+          <div>
+            <h3>Description:</h3>
+            <p>${data.Description}</p>
+          </div>
+        `;
+        clearError();
+      }
+
+      function displayError(message) {
+        const appInfoDiv = document.getElementById("app-info");
+        appInfoDiv.innerHTML = `<p class="error-message">${message}</p>`;
+      }
+
+      function clearAppInfo() {
+        const appInfoDiv = document.getElementById("app-info");
+        appInfoDiv.innerHTML = "";
+      }
+
+      function clearError() {
+        const errorElement = document.getElementById("error-message");
+        errorElement.innerHTML = "";
+      }
+
+      // Call clearInput function on page load
+      document.addEventListener("DOMContentLoaded", clearInput);
+    </script>
+  </head>
+  <body>
+    <div class="container">
+      <h1>ScrapeBot</h1>
+      <form onsubmit="fetchAppInfo(event)">
+        <label for="url">Enter URL:</label>
+        <input type="text" id="url" name="url" required />
+        <button type="submit">Submit</button>
+        <div id="error-message" class="error-message"></div>
+      </form>
+      <div id="app-info"></div>
+    </div>
+  </body>
+</html>
